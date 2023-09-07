@@ -10,7 +10,6 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Getter
 @Setter@Builder
-@Data
 public class User extends BaseEntity{
     @Column(name = "user_name", nullable = false, unique = true)
     private String userName;
@@ -23,4 +22,8 @@ public class User extends BaseEntity{
 
     @Column(name = "address")
     private String address;
+
+    @ManyToOne
+    @JoinColumn(name = "dept_id")
+    private Department department;
 }

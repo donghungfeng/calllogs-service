@@ -35,4 +35,7 @@ public class BaseEntity {
     @Column(name = "update_date")
     @DateTimeFormat(pattern="dd/MM/yyyy")
     private Date updateDate;
+
+    @Column(name = "note")
+    private String note;
 }

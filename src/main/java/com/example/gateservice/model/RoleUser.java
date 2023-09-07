@@ -9,8 +9,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-@Setter@Builder
-@Data
+@Setter
+@Builder
 public class RoleUser extends BaseEntity{
     @Column(name = "role_id", nullable = false)
     private Long roleId;
