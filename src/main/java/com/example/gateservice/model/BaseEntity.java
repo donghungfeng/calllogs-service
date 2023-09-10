@@ -19,23 +19,6 @@ public class BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "code", unique = true)
-    private String code;
-
-    @Column(name = "is_active")
-    private int isActive = 1;
-
-    @Column(name = "create_date")
-    @DateTimeFormat(pattern="dd/MM/yyyy")
-    private Date createDate;
-
-    @Column(name = "update_date")
-    @DateTimeFormat(pattern="dd/MM/yyyy")
-    private Date updateDate;
-
     @Column(name = "note")
     private String note;
 }

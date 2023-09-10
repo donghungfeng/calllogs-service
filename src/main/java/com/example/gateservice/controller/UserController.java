@@ -7,16 +7,14 @@ import com.example.gateservice.request.LoginRequest;
 import com.example.gateservice.service.BaseService;
 import com.example.gateservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.NoSuchAlgorithmException;
 
 
 @RestController
 @RequestMapping("user")
+@CrossOrigin
 public class UserController extends BaseController<User> {
     @Autowired
     UserService userService;

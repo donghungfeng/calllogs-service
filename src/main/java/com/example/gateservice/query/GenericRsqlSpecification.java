@@ -39,6 +39,8 @@ public class GenericRsqlSpecification<T> implements Specification<T> {
                     return builder.isNotNull(builder.lower(propertyExpression));
                 if (isDouble(javaType))
                     return builder.equal(propertyExpression, argument);
+                if (isInt(javaType))
+                    return builder.equal(propertyExpression, argument);
                 if (argument instanceof String) {
                     return builder.like(builder.lower(propertyExpression),
                             formatArgument(argument), '\\');
@@ -79,6 +81,10 @@ public class GenericRsqlSpecification<T> implements Specification<T> {
     }
     private Boolean isDouble(String javaType) {
         return javaType.equals("class java.lang.Double");
+    }
+
+    private Boolean isInt(String javaType) {
+        return javaType.equals("int");
     }
     private Path<String> parseProperty(Root<T> root) {
         Path<String> path;

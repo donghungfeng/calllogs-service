@@ -1,10 +1,22 @@
 package com.example.gateservice.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "data")
 public class Data extends BaseEntity{
+
+    @Column(name = "name")
+    private String name;
 
     @Column(name = "phone")
     private String phone;
@@ -14,9 +26,6 @@ public class Data extends BaseEntity{
 
     @Column(name = "product_value")
     private Long productValue;
-
-    @Column(name = "status")
-    private int status;
 
     @Column(name = "date")
     private Long date;
@@ -30,14 +39,14 @@ public class Data extends BaseEntity{
     @Column(name = "datechanged")
     private Long dateChanged;
 
-    @Column(name = "price")
-    private Double price;
-
     @Column(name = "address")
     private String address;
 
     @Column(name = "messager")
     private String messager;
+
+    @Column(name = "note")
+    private String note;
 
     @ManyToOne
     @JoinColumn(name = "staff_id")

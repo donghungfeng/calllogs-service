@@ -16,8 +16,8 @@ public abstract class BaseController<T> {
     }
 
     @GetMapping("search")
-    public BaseResponse search(@RequestParam(value = "search") String search) {
-        return new BaseResponse(200, "Lấy dữ liệu thành công!", this.getService().search(search));
+    public BaseResponse search(@RequestParam String filter, @RequestParam String sort, @RequestParam int size, @RequestParam int page){
+        return new BaseResponse(200, "Lấy dữ liệu thành công!", this.getService().search(filter, sort, size, page));
     }
 
     @PutMapping("")

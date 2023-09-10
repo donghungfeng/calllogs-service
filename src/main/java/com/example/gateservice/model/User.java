@@ -11,6 +11,15 @@ import javax.persistence.*;
 @Getter
 @Setter@Builder
 public class User extends BaseEntity{
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "code", unique = true)
+    private String code;
+
+    @Column(name = "is_active")
+    private int isActive = 1;
+
     @Column(name = "user_name", nullable = false, unique = true)
     private String userName;
 

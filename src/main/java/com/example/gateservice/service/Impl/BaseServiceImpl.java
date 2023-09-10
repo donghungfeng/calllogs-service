@@ -5,6 +5,10 @@ import com.example.gateservice.repository.BaseRepository;
 import com.example.gateservice.service.BaseService;
 import cz.jirutka.rsql.parser.RSQLParser;
 import cz.jirutka.rsql.parser.ast.Node;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
@@ -18,10 +22,13 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
     }
 
     @Override
-    public List<T> search(String filter){
+    public Page<T> search(String filter, String sort, int size, int page){
         Node rootNode = new RSQLParser().parse(filter);
         Specification<T> spec = rootNode.accept(new CustomRsqlVisitor<T>());
-        return this.getRepository().findAll(spec);
+        String[] sortList = sort.split(",");
+        Sort.Direction direction = sortList[1].equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Pageable pageable = PageRequest.of(page, size, direction, sortList[0]);
+        return this.getRepository().findAll(spec, pageable);
     }
 
     @Override
