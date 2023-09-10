@@ -39,7 +39,7 @@ public class Work extends BaseEntity{
     private String ghiChu;
 
     @Column(name = "active")
-    private int isActive;
+    private int isActive = 1;
 
     @Column(name = "shopcode")
     private String shopCode;

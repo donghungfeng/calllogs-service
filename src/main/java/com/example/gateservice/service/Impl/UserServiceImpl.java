@@ -78,6 +78,11 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
         return new BaseResponse(200, "OK", loginReponse);
     }
 
+    @Override
+    public User getByUserName(String userName) {
+        return userRepository.findByUserName(userName);
+    }
+
 
     public String enCode(String string) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("MD5");
