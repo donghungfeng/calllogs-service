@@ -1,6 +1,7 @@
 package com.example.gateservice.service.Impl;
 
 import com.example.gateservice.model.Data;
+import com.example.gateservice.model.Department;
 import com.example.gateservice.util.DateUtil;
 import com.example.gateservice.util.UploadFileUtil;
 import org.apache.poi.ss.usermodel.*;
@@ -27,7 +28,7 @@ public class UploadFileServiceImpl {
     public static boolean isValidExcelFile(MultipartFile file){
         return Objects.equals(file.getContentType(), "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" );
     }
-    public static List<Data> getCustomersDataFromExcel(InputStream inputStream){
+    public static List<Data> getCustomersDataFromExcel(InputStream inputStream, Long departmentId){
         List<Data> dataList = new ArrayList<>();
         try {
             XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
@@ -45,6 +46,9 @@ public class UploadFileServiceImpl {
                 data.setDateChanged(DateUtil.getCurrenDateHour());
                 data.setDateOnly(DateUtil.getCurrenDate());
                 data.setDateChangedOnly(DateUtil.getCurrenDate());
+                Department department = new Department();
+                department.setId(departmentId);
+                data.setDepartment(department);
                 while (cellIterator.hasNext()){
                     Cell cell = cellIterator.next();
                     switch (cellIndex){

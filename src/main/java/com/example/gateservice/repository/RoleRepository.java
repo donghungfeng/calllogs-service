@@ -10,4 +10,7 @@ import java.util.List;
 public interface RoleRepository extends BaseRepository<Role>{
     @Query(value = "select * from role where id in :ids", nativeQuery = true)
     List<Role> findAllByInIds(List<Long> ids);
+
+    @Query(value = "select * from role where staff_id in :ids", nativeQuery = true)
+    List<Role> findAllByInUserIds(List<Long> ids);
 }

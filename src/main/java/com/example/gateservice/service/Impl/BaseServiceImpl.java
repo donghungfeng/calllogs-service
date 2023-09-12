@@ -22,7 +22,7 @@ public abstract class BaseServiceImpl<T> implements BaseService<T> {
     }
 
     @Override
-    public Page<T> search(String filter, String sort, int size, int page){
+    public Page<T> search(String filter, String sort, int size, int page, String jwt){
         Node rootNode = new RSQLParser().parse(filter);
         Specification<T> spec = rootNode.accept(new CustomRsqlVisitor<T>());
         String[] sortList = sort.split(",");

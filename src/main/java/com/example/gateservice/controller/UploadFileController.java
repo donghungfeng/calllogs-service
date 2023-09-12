@@ -26,8 +26,8 @@ public class UploadFileController{
     DataService dataService;
 
     @PostMapping("/data")
-    public ResponseEntity<?> uploadCustomersData(@RequestParam("file")MultipartFile file){
-        this.dataService.saveCustomersToDatabase(file);
+    public ResponseEntity<?> uploadCustomersData(@RequestParam("file")MultipartFile file, @RequestParam("departmentId") Long departmentId){
+        this.dataService.saveCustomersToDatabase(file, departmentId);
         return ResponseEntity
                 .ok(Map.of("Message" , " data data uploaded and saved to database successfully"));
     }

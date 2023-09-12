@@ -3,6 +3,7 @@ package com.example.gateservice.service.Impl;
 import com.example.gateservice.config.jwt.JwtTokenProvider;
 import com.example.gateservice.model.User;
 import com.example.gateservice.model.Work;
+import com.example.gateservice.reponse.BaseResponse;
 import com.example.gateservice.repository.BaseRepository;
 import com.example.gateservice.repository.WorkRepository;
 import com.example.gateservice.service.UserService;
@@ -60,6 +61,16 @@ public class WorkServiceImpl extends BaseServiceImpl<Work> implements WorkServic
         work.setTimeOut(DateUtil.getCurrenDateHour());
         work.setIsActive(-1);
         work = workRepository.save(work);
+        return work;
+    }
+
+    @Override
+    public Work checkActive(String jwt) {
+        JwtTokenProvider jwtTokenProvider = new JwtTokenProvider();
+        String bearerToken = getJwtFromRequest(jwt);
+        String userName = jwtTokenProvider.getAccountUserNameFromJWT(bearerToken);
+        User user = userService.getByUserName(userName);
+        Work work = workRepository.findAllByStaffAndIsActive(user, 1);
         return work;
     }
 }

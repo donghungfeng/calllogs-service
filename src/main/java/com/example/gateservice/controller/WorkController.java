@@ -38,4 +38,9 @@ public class WorkController extends BaseController<Work>{
         }
         return new BaseResponse().success(work);
     }
+
+    @PostMapping("checkActive")
+    public BaseResponse checkActive(@RequestHeader(name = "Authorization") String jwt){
+        return new BaseResponse().success(workService.checkActive(jwt));
+    }
 }

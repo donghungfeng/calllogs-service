@@ -11,6 +11,7 @@ import com.example.gateservice.reponse.LoginReponse;
 import com.example.gateservice.repository.*;
 import com.example.gateservice.request.CreateUserRequest;
 import com.example.gateservice.request.LoginRequest;
+import com.example.gateservice.service.DepartmentService;
 import com.example.gateservice.service.UserService;
 import cz.jirutka.rsql.parser.RSQLParser;
 import cz.jirutka.rsql.parser.ast.Node;
@@ -38,14 +39,19 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
     RoleUserRepository roleUserRepository;
     @Autowired
     ModelMapper modelMapper;
+
+    @Autowired
+    DepartmentService departmentService;
     @Override
     protected BaseRepository<User> getRepository() {
         return userRepository;
     }
 
     public BaseResponse createUser(CreateUserRequest createUserRequest) throws NoSuchAlgorithmException {
+        Department department = departmentService.getById(createUserRequest.getDepartmentId());
         User user = modelMapper.map(createUserRequest, User.class);
         user.setPassword(enCode(user.getPassword()));
+        user.setDepartment(department);
         user = userRepository.save(user);
         Role role = roleRepository.findAllById(createUserRequest.getRoleId());
         RoleUser roleUser = new RoleUser();

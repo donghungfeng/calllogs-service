@@ -8,6 +8,8 @@ import com.example.gateservice.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleService {
     @Autowired
@@ -15,6 +17,11 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
     @Override
     protected BaseRepository<Role> getRepository() {
         return roleRepository;
+    }
+
+    @Override
+    public List<Role> findAllByInIds(List<Long> ids) {
+        return roleRepository.findAllByInIds(ids);
     }
 }
 
