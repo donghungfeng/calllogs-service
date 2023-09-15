@@ -28,6 +28,11 @@ public class UserController extends BaseController<User> {
         return userService.createUser(createUserRequest);
     }
 
+    @PostMapping("update")
+    public BaseResponse update(@RequestBody CreateUserRequest createUserRequest) throws NoSuchAlgorithmException {
+        return userService.updateUser(createUserRequest);
+    }
+
     @PostMapping("login")
     public BaseResponse login(@RequestBody LoginRequest loginRequest) throws NoSuchAlgorithmException {
         return userService.login(loginRequest);

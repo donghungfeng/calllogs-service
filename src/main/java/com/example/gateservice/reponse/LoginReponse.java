@@ -13,5 +13,7 @@ import java.util.List;
 @Setter
 public class LoginReponse {
     private String token;
+    private Long staffId;
+    private Long departmentId;
     private List<String> roleList;
 }

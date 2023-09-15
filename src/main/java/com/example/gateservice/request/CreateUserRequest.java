@@ -12,6 +12,7 @@ import java.util.Date;
 @Getter
 @Setter
 public class CreateUserRequest {
+    private Long id;
     private String name;
     private String code;
     private int isActive = 1;

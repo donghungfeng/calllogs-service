@@ -9,6 +9,7 @@ import java.security.NoSuchAlgorithmException;
 
 public interface UserService extends BaseService<User>{
     public BaseResponse createUser(CreateUserRequest createUserRequest) throws NoSuchAlgorithmException;
+    public BaseResponse updateUser(CreateUserRequest updateUserRequest) throws NoSuchAlgorithmException;
     public BaseResponse login(LoginRequest loginRequest) throws NoSuchAlgorithmException;
     public User getByUserName(String userName);
 }

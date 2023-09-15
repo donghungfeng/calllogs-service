@@ -58,6 +58,28 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
         roleUser.setUserId(user.getId());
         roleUser.setRoleId(role.getId());
         roleUserRepository.save(roleUser);
+        user.setPassword(null);
+        return new BaseResponse(200, "OK", user);
+    }
+
+    @Override
+    public BaseResponse updateUser(CreateUserRequest updateUserRequest) throws NoSuchAlgorithmException {
+        Department department = departmentService.getById(updateUserRequest.getDepartmentId());
+        User user = modelMapper.map(updateUserRequest, User.class);
+        user.setPassword(enCode(user.getPassword()));
+        user.setDepartment(department);
+        user = userRepository.save(user);
+        Role role = roleRepository.findAllById(updateUserRequest.getRoleId());
+        List<RoleUser> roleUserList = roleUserRepository.findAllByUserId(updateUserRequest.getId());
+        RoleUser roleUser = roleUserList.get(0);
+        if (!roleUserList.isEmpty()){
+            roleUser.setRoleId(updateUserRequest.getRoleId());
+        }else {
+            roleUser.setUserId(user.getId());
+            roleUser.setRoleId(role.getId());
+        }
+        roleUserRepository.save(roleUser);
+        user.setPassword(null);
         return new BaseResponse(200, "OK", user);
     }
 
@@ -80,7 +102,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 
         List<String> roleList = roleRepository.findAllByInIds(roleIdList).stream().map(item -> item.getName()).collect(Collectors.toList());
 
-        LoginReponse loginReponse = new LoginReponse(jwtTokenProvider.generateToken(new CustomUserDetails(roleUserRepository, user)), roleList);
+        LoginReponse loginReponse = new LoginReponse(jwtTokenProvider.generateToken(new CustomUserDetails(roleUserRepository, user)), user.getId(), user.getDepartment().getId(), roleList);
         return new BaseResponse(200, "OK", loginReponse);
     }
 
