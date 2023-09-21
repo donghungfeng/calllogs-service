@@ -109,8 +109,14 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
         }
 
         List<String> roleList = roleRepository.findAllByInIds(roleIdList).stream().map(item -> item.getName()).collect(Collectors.toList());
+        Long departmentId;
+        if(user.getDepartment()!=null){
+            departmentId=user.getDepartment().getId();
+        }else{
+            departmentId=null;
+        }
 
-        LoginReponse loginReponse = new LoginReponse(jwtTokenProvider.generateToken(new CustomUserDetails(roleUserRepository, user)), user.getId(), user.getDepartment().getId(), roleList);
+        LoginReponse loginReponse = new LoginReponse(jwtTokenProvider.generateToken(new CustomUserDetails(roleUserRepository, user)), user.getId(), departmentId, roleList);
         return new BaseResponse(200, "OK", loginReponse);
     }
 
