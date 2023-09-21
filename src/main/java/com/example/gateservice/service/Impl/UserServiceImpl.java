@@ -35,8 +35,11 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
     @Autowired
     RoleRepository roleRepository;
 
+
     @Autowired
     RoleUserRepository roleUserRepository;
+    @Autowired
+    DepartmentRepository departmentRepository;
     @Autowired
     ModelMapper modelMapper;
 
@@ -48,7 +51,8 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
     }
 
     public BaseResponse createUser(CreateUserRequest createUserRequest) throws NoSuchAlgorithmException {
-        Department department = departmentService.getById(createUserRequest.getDepartmentId());
+        Department department = departmentRepository.getDepartmentById(createUserRequest.getDepartmentId());
+        String roleCode= roleRepository.findRoleById(createUserRequest.getRoleId()).getCode();
         User user = modelMapper.map(createUserRequest, User.class);
         user.setPassword(enCode(user.getPassword()));
         user.setDepartment(department);
@@ -57,6 +61,7 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
         RoleUser roleUser = new RoleUser();
         roleUser.setUserId(user.getId());
         roleUser.setRoleId(role.getId());
+        roleUser.setCode(roleCode);
         roleUserRepository.save(roleUser);
         user.setPassword(null);
         return new BaseResponse(200, "OK", user);
@@ -64,17 +69,20 @@ public class UserServiceImpl extends BaseServiceImpl<User> implements UserServic
 
     @Override
     public BaseResponse updateUser(CreateUserRequest updateUserRequest) throws NoSuchAlgorithmException {
-        Department department = departmentService.getById(updateUserRequest.getDepartmentId());
+        Department department = departmentRepository.getDepartmentById(updateUserRequest.getDepartmentId());
         User user = modelMapper.map(updateUserRequest, User.class);
         user.setPassword(enCode(user.getPassword()));
         user.setDepartment(department);
         user = userRepository.save(user);
         Role role = roleRepository.findAllById(updateUserRequest.getRoleId());
+        String roleCode= roleRepository.findRoleById(updateUserRequest.getRoleId()).getCode();
         List<RoleUser> roleUserList = roleUserRepository.findAllByUserId(updateUserRequest.getId());
         RoleUser roleUser = roleUserList.get(0);
         if (!roleUserList.isEmpty()){
+            roleUser.setCode(roleCode);
             roleUser.setRoleId(updateUserRequest.getRoleId());
         }else {
+            roleUser.setCode(roleCode);
             roleUser.setUserId(user.getId());
             roleUser.setRoleId(role.getId());
         }

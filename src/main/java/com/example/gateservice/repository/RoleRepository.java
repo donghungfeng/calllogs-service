@@ -13,4 +13,5 @@ public interface RoleRepository extends BaseRepository<Role>{
 
     @Query(value = "select * from role where staff_id in :ids", nativeQuery = true)
     List<Role> findAllByInUserIds(List<Long> ids);
+    Role findRoleById(Long id);
 }

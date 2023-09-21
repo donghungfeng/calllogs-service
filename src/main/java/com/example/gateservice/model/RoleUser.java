@@ -15,7 +15,7 @@ public class RoleUser extends BaseEntity{
     @Column(name = "name")
     private String name;
 
-    @Column(name = "code", unique = true)
+    @Column(name = "code")
     private String code;
 
     @Column(name = "is_active")
